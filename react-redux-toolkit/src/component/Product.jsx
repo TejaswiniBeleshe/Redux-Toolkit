@@ -27,7 +27,7 @@ const Product = ()=>{
       ))
     return(
         <div>
-         product component
+        <h1>product component</h1>
          <div className="row">
             {cards}
          </div>
