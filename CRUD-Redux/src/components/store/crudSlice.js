@@ -9,15 +9,18 @@ const crudSlice = createSlice({
             state.push(action.payload)
         },
         remove(state,action){
-            console.log(action)
+            // console.log(action)
             let filteredData = state.filter(ele=>{
                 return ele.id !== action.payload
             })
             return filteredData
+        },
+        edit(state,action){
+            return action.payload
         }
 
     }
 })
 
-export const {add,remove} = crudSlice.actions;
+export const {add,remove,edit} = crudSlice.actions;
 export default crudSlice.reducer;
