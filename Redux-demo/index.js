@@ -2,7 +2,7 @@
 const redux = require('redux');
 const createStore = redux.createStore;
 const bindActionCreators = redux.bindActionCreators;
-
+const combineReducers  = redux.combineReducers
 const CAKE_ORDERED = 'CAKE_ORDERED';
 const CAKE_RESTOCKED = 'CAKE_RESTOCKED';
 const ICECREAM_ORDERED = 'ICECREAM_ORDERED';
@@ -44,14 +44,49 @@ function restockIceCream(qty=1){
 }
 // application state represented by single object
 
-const initialState = {
-    numberOfCake:10,
+// const initialState = {
+//     numberOfCake:10,
+//     numberOfIceCream:15
+// }
+
+const initialCakeState = {
+    numberOfCake:10
+}
+
+const initialIceCreamState = {
     numberOfIceCream:15
 }
 
-
 // reducer that accepts initial state and actions and returns new state
-const reducer = (state=initialState,action)=>{
+// const reducer = (state=initialState,action)=>{
+//     switch(action.type){
+//         case CAKE_ORDERED:
+//             return {
+//                 ...state,
+//                 numberOfCake:state.numberOfCake-1
+//             }
+//         case CAKE_RESTOCKED:
+//             return{
+//                 ...state,
+//                 numberOfCake:state.numberOfCake+action.payload
+//             }
+//         case ICECREAM_ORDERED:
+//             return{
+//                  ...state,
+//                  numberOfIceCream:state.numberOfIceCream-action.payload
+//             }
+//         case ICECREAM_RESTOCKED:
+//             return{
+//                 ...state,
+//                 numberOfIceCream:state.numberOfIceCream+action.payload
+//             }
+//         default:
+//             return state;
+        
+//     }
+// }
+
+const cakeReducer = (state=initialCakeState,action)=>{
     switch(action.type){
         case CAKE_ORDERED:
             return {
@@ -63,6 +98,14 @@ const reducer = (state=initialState,action)=>{
                 ...state,
                 numberOfCake:state.numberOfCake+action.payload
             }
+        default:
+            return state;
+        
+    }
+}
+
+const iceCreamReducer = (state=initialIceCreamState,action)=>{
+    switch(action.type){
         case ICECREAM_ORDERED:
             return{
                  ...state,
@@ -79,8 +122,15 @@ const reducer = (state=initialState,action)=>{
     }
 }
 
+// combining multiple reduce into single one
+const rootReducer = combineReducers({
+    cake:cakeReducer,
+    iceCream:iceCreamReducer
+})
+
+
 // 1
-const store = createStore(reducer)
+const store = createStore(rootReducer)
 
 // 2
 console.log('initial state',store.getState())
